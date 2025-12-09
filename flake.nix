@@ -62,9 +62,6 @@
           default = statements;
           statements = statements;
 
-          # Legacy name for backwards compatibility
-          analyzer-tui = statements;
-
           # Cross-platform builds using Go's built-in cross-compilation
           statements-linux-amd64 = buildForTarget "linux" "amd64";
           statements-linux-arm64 = buildForTarget "linux" "arm64";

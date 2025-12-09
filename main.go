@@ -905,7 +905,7 @@ func rightPadAmount(amountStr string, width int) string {
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: analyzer-tui <statementlist.json>")
+		fmt.Println("Usage: statements <statementlist.json>")
 		os.Exit(1)
 	}
 
