@@ -529,12 +529,6 @@ func (m model) updateTransactionsTable() model {
 	// Build table rows
 	rows := []table.Row{}
 	for _, tx := range transactions {
-		// Original amount in foreign currency
-		originalAmt := tx.Amount
-		if originalAmt == "" {
-			originalAmt = "0.00"
-		}
-
 		// NTD amount
 		ntdAmt := tx.NtdAmount
 		if ntdAmt == "" {
@@ -546,9 +540,19 @@ func (m model) updateTransactionsTable() model {
 			continue
 		}
 
-		currency := tx.AmtCy
-		if currency == "" || strings.TrimSpace(currency) == "" {
+		// Clean and check currency (trim whitespace)
+		currency := strings.TrimSpace(tx.AmtCy)
+
+		// Original amount in foreign currency
+		originalAmt := tx.Amount
+		if originalAmt == "" {
+			originalAmt = "0.00"
+		}
+
+		// For NTD transactions (empty currency), use NTD amount as the display amount
+		if currency == "" {
 			currency = "NTD"
+			originalAmt = ntdAmt
 		}
 
 		// Get clean description (remove APE prefix)
