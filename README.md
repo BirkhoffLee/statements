@@ -18,6 +18,51 @@ A Terminal User Interface (TUI) application for analyzing credit card statements
 - **Sorting**: Sort transactions by date, amount, or location
 - **Interactive Navigation**: Browse statements and transactions with keyboard shortcuts, sorting, and filtering
 
+## Usage
+
+```bash
+./statements <path-to-statement-list.json>
+```
+
+## Keyboard Controls
+
+### All Views
+- `Tab` - Switch between Summary and Statements views
+- `q` or `Ctrl+C` - Quit the application
+
+### Statements View
+- `↑` or `k` - Select previous statement
+- `↓` or `j` - Select next statement
+- `←` or `h` - Navigate to previous transaction
+- `→` or `l` - Navigate to next transaction
+- `s` - Cycle through sort modes (Date → Amount → Location)
+
+## Views
+
+### Summary View
+Displays an overview of all transactions:
+- Total number of statements
+- Transaction counts by category
+- Apple Pay breakdown by card (last 4 digits)
+- PayPal transaction summary
+- Foreign transaction fee summary
+
+### Statements View
+Browse statements with two panels:
+
+**Left Panel (Statement List)**
+- Year/Month of statement
+- Total amount for the statement
+- Navigate with `↑`/`↓` keys
+
+**Right Panel (Transaction Details)**
+- Transaction date
+- Amount with currency
+- Description (normalized)
+- Location (if available)
+- Navigate with `←`/`→` keys
+- Sort with `s` key
+
 ## Installation
 
 ### Option 1: Build with Go
@@ -95,51 +140,6 @@ nix build .#statements-windows-amd64
 ```
 
 All builds will be available in the `result/bin/` directory after building.
-
-## Usage
-
-```bash
-./statements <path-to-statement-list.json>
-```
-
-## Keyboard Controls
-
-### All Views
-- `Tab` - Switch between Summary and Statements views
-- `q` or `Ctrl+C` - Quit the application
-
-### Statements View
-- `↑` or `k` - Select previous statement
-- `↓` or `j` - Select next statement
-- `←` or `h` - Navigate to previous transaction
-- `→` or `l` - Navigate to next transaction
-- `s` - Cycle through sort modes (Date → Amount → Location)
-
-## Views
-
-### Summary View
-Displays an overview of all transactions:
-- Total number of statements
-- Transaction counts by category
-- Apple Pay breakdown by card (last 4 digits)
-- PayPal transaction summary
-- Foreign transaction fee summary
-
-### Statements View
-Browse statements with two panels:
-
-**Left Panel (Statement List)**
-- Year/Month of statement
-- Total amount for the statement
-- Navigate with `↑`/`↓` keys
-
-**Right Panel (Transaction Details)**
-- Transaction date
-- Amount with currency
-- Description (normalized)
-- Location (if available)
-- Navigate with `←`/`→` keys
-- Sort with `s` key
 
 ## Project Structure
 
