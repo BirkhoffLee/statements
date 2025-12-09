@@ -671,6 +671,8 @@ func (m model) renderSummaryView() string {
 	b.WriteString(fmt.Sprintf("Total Statements: %d\n", len(m.statements)))
 	b.WriteString(fmt.Sprintf("Apple Pay Transactions: %d\n", len(m.categorized.ApplePay)))
 	b.WriteString(fmt.Sprintf("PayPal Transactions: %d\n", len(m.categorized.PayPal)))
+	b.WriteString(fmt.Sprintf("LINE Pay Transactions: %d\n", len(m.categorized.LinePay)))
+	b.WriteString(fmt.Sprintf("Jkopay Transactions: %d\n", len(m.categorized.Jkopay)))
 	b.WriteString(fmt.Sprintf("Foreign Transaction Fees: %d\n", len(m.categorized.ForeignFees)))
 	b.WriteString(fmt.Sprintf("Other Transactions: %d\n", len(m.categorized.Other)))
 
@@ -724,6 +726,38 @@ func (m model) renderSummaryView() string {
 	}
 	b.WriteString(fmt.Sprintf("  Total PayPal Transactions: %d\n", len(m.categorized.PayPal)))
 	b.WriteString(fmt.Sprintf("  Total PayPal Amount: NT$%s\n", formatAmount(paypalTotal)))
+
+	// LINE Pay summary
+	b.WriteString("\n")
+	b.WriteString(sectionStyle.Render("💚 LINE Pay Summary"))
+	b.WriteString("\n")
+
+	linePayTotal := 0.0
+	for _, tx := range m.categorized.LinePay {
+		amt, _ := strconv.ParseFloat(tx.NtdAmount, 64)
+		if amt == 0 {
+			amt, _ = strconv.ParseFloat(tx.Amount, 64)
+		}
+		linePayTotal += amt
+	}
+	b.WriteString(fmt.Sprintf("  Total LINE Pay Transactions: %d\n", len(m.categorized.LinePay)))
+	b.WriteString(fmt.Sprintf("  Total LINE Pay Amount: NT$%s\n", formatAmount(linePayTotal)))
+
+	// Jkopay summary
+	b.WriteString("\n")
+	b.WriteString(sectionStyle.Render("🏪 Jkopay Summary"))
+	b.WriteString("\n")
+
+	jkopayTotal := 0.0
+	for _, tx := range m.categorized.Jkopay {
+		amt, _ := strconv.ParseFloat(tx.NtdAmount, 64)
+		if amt == 0 {
+			amt, _ = strconv.ParseFloat(tx.Amount, 64)
+		}
+		jkopayTotal += amt
+	}
+	b.WriteString(fmt.Sprintf("  Total Jkopay Transactions: %d\n", len(m.categorized.Jkopay)))
+	b.WriteString(fmt.Sprintf("  Total Jkopay Amount: NT$%s\n", formatAmount(jkopayTotal)))
 
 	// Foreign fees summary
 	b.WriteString("\n")

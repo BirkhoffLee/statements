@@ -37,11 +37,23 @@ func ToCDB(str string) string {
 	return result.String()
 }
 
-// GetCleanDescription removes Apple Pay prefix from description
+// GetCleanDescription removes payment provider prefixes from description
 func GetCleanDescription(normalizedDesc string) string {
 	// Remove APE or APExxxx (4 digits) prefix
 	applePayRegex := regexp.MustCompile(`^APE\d{0,4}`)
-	return applePayRegex.ReplaceAllString(normalizedDesc, "")
+	cleanDesc := applePayRegex.ReplaceAllString(normalizedDesc, "")
+
+	// Remove LINE Pay prefix (連加*)
+	if strings.HasPrefix(cleanDesc, "連加*") {
+		cleanDesc = strings.TrimPrefix(cleanDesc, "連加*")
+	}
+
+	// Remove Jkopay prefix (街口電支-)
+	if strings.HasPrefix(cleanDesc, "街口電支-") {
+		cleanDesc = strings.TrimPrefix(cleanDesc, "街口電支-")
+	}
+
+	return cleanDesc
 }
 
 // DetectDetailedCategory detects granular category based on transaction description
@@ -117,6 +129,8 @@ func CategorizeTransactions(statements []Statement) CategorizedTransactions {
 	categorized := CategorizedTransactions{
 		ApplePay:    make([]Transaction, 0),
 		PayPal:      make([]Transaction, 0),
+		LinePay:     make([]Transaction, 0),
+		Jkopay:      make([]Transaction, 0),
 		ForeignFees: make([]Transaction, 0),
 		Other:       make([]Transaction, 0),
 	}
@@ -152,6 +166,10 @@ func CategorizeTransactions(statements []Statement) CategorizedTransactions {
 				categorized.ApplePay = append(categorized.ApplePay, *tx)
 			} else if strings.HasPrefix(normalizedDesc, "PAYPAL*") || strings.HasPrefix(normalizedDesc, "PP*") {
 				categorized.PayPal = append(categorized.PayPal, *tx)
+			} else if strings.HasPrefix(normalizedDesc, "連加*") {
+				categorized.LinePay = append(categorized.LinePay, *tx)
+			} else if strings.HasPrefix(normalizedDesc, "街口電支-") {
+				categorized.Jkopay = append(categorized.Jkopay, *tx)
 			} else if strings.HasPrefix(normalizedDesc, "國外交易手續費") {
 				categorized.ForeignFees = append(categorized.ForeignFees, *tx)
 			} else {

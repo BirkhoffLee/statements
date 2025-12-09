@@ -52,6 +52,8 @@ type Statement struct {
 type CategorizedTransactions struct {
 	ApplePay    []Transaction
 	PayPal      []Transaction
+	LinePay     []Transaction
+	Jkopay      []Transaction
 	ForeignFees []Transaction
 	Other       []Transaction
 }
