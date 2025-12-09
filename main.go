@@ -610,6 +610,13 @@ func (m model) updateTransactionsTable() model {
 	}
 
 	m.transactionsTable.SetRows(rows)
+
+	// Reset cursor to top when switching statements
+	cursor := m.transactionsTable.Cursor()
+	for i := 0; i < cursor; i++ {
+		m.transactionsTable.Update(tea.KeyMsg{Type: tea.KeyUp})
+	}
+
 	return m
 }
 
