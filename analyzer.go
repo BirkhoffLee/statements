@@ -61,7 +61,7 @@ func DetectDetailedCategory(normalizedDesc string) string {
 	desc := strings.ToUpper(normalizedDesc)
 
 	// Transportation
-	transportPrefixes := []string{"LIME", "UBER", "UBR*", "FREENOW", "ZITY", "FLIXBUS", "FNM*", "FNM ", "TRENITALIA"}
+	transportPrefixes := []string{"LIME", "UBER", "UBR*", "FREENOW", "ZITY", "FLIXBUS", "FNM*", "FNM ", "TRENITALIA", "TRENORD", "TRAIN", "SCOOTER", "RAILWAY"}
 	for _, prefix := range transportPrefixes {
 		if strings.HasPrefix(desc, prefix) {
 			return CategoryTransport
@@ -70,10 +70,11 @@ func DetectDetailedCategory(normalizedDesc string) string {
 
 	// Food & Groceries
 	foodPrefixes := []string{
-		"ESSELUNGA", "PANIFICIO", "DELIVEROO", "CAFE", "MACELLERIA",
-		"RISTORANTE", "GELATERIA", "GELATO", "GELATI", "PIZZA", "PIZZERIA",
+		"CIBO", "PANIFICIO", "DELIVEROO", "CAFE", "CAFFE", "MACELLERIA",
+		"ESSELUNGA", "MERCATO", "MERCADO", "RISTORANTE", "RESTAURANT", "OSTERIA", "GELATERIA", "GELATO", "GELATI", "PIZZA", "PIZZERIA",
 		"BURGER", "CONAD", "CARREFOUR", "EATALY", "BAR", "TRATTORIA", "DM-",
-		"GLOVO", "KFC", "MCDONALDS", "NESPRESSO",
+		"GLOVO", "KFC", "MCDONALDS", "NESPRESSO", "PASTICCERIA",
+		"PRETAMANGER", "FIVEGUYS", "AUTOGRILL", "STARBUCKS", "DRINK",
 	}
 	for _, prefix := range foodPrefixes {
 		if strings.Contains(desc, prefix) {
@@ -82,7 +83,7 @@ func DetectDetailedCategory(normalizedDesc string) string {
 	}
 
 	// Shopping
-	shoppingPrefixes := []string{"AMAZON*", "BRICOCENTER"}
+	shoppingPrefixes := []string{"AMAZON*", "WWW.AMAZON", "DECATHLON", "BRICOCENTER", "TIGROS", "TEMU.COM", "UNIQLO"}
 	for _, prefix := range shoppingPrefixes {
 		if strings.Contains(desc, prefix) {
 			return CategoryShopping
@@ -90,7 +91,7 @@ func DetectDetailedCategory(normalizedDesc string) string {
 	}
 
 	// Travel & Accommodation
-	travelPrefixes := []string{"AIRBNB", "ALBERGO", "AIRPORT", "EASYJET", "TRIP.COM", "RYANAIR", "FLYSCOOT", "GOTOGATE", "BOOKINGCOM"}
+	travelPrefixes := []string{"AIRBNB", "ALBERGO", "AIRPORT", "EASYJET", "TRIP.COM", "EVAAIR", "RYANAIR", "FLYSCOOT", "GOTOGATE", "BOOKINGCOM", "HOTEL", "KKDAY", "KIWICOM"}
 	for _, prefix := range travelPrefixes {
 		if strings.Contains(desc, prefix) {
 			return CategoryTravel
@@ -98,7 +99,7 @@ func DetectDetailedCategory(normalizedDesc string) string {
 	}
 
 	// Utilities & Services
-	utilitiesPrefixes := []string{"APPLE.COM", "AWS", "AMAZONWEBSERVICES", "POLITECNICO", "POSTEITALIA"}
+	utilitiesPrefixes := []string{"APPLE.COM", "VODAFONE", "AWS", "AMAZONWEBSERVICES", "1PASSWORD", "POLITECNICO", "POSTEITALIA", "OPENAI", "POLISPORTIVA", "PORKBUN"}
 	for _, prefix := range utilitiesPrefixes {
 		if strings.Contains(desc, prefix) {
 			return CategoryUtilities
